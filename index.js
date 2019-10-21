@@ -1,8 +1,11 @@
 //Actions
-
 const redux = require('redux') //using redux
+const reduxLogger = require('redux-logger')//to use redux logger
+
 const createStore = redux.createStore //creating a store with redux
 const combineReducers = redux.combineReducers
+const applyMiddleware = redux.applyMiddleware//we are able to use Middleware
+const logger = reduxLogger.createLogger()//no we have a logger Middleware
 
 const BUY_CAKE = 'BUY_CAKE'
 const BUY_ICECREAM = 'BUY_ICEREAM'
@@ -18,9 +21,6 @@ function buyIceCream() { //action creator
     type: BUY_ICECREAM
     }
 }
-
-
-
 // const InitialState = {
 //     numOfCakes: 10,
 //     numOfIceCreams: 20
@@ -72,9 +72,9 @@ const rootReducer = combineReducers({
     cake: cakeReducer,
     iceCream: iceCreamReducer
 })
-const store = createStore(rootReducer); //creating a redux store holding the app's initial state with the method
+const store = createStore(rootReducer, applyMiddleware(logger)); //creating a redux store holding the app's initial state with the method
 console.log('Initial state', store.getState()); //gives an initial state of the app
-const unsubscribe = store.subscribe(() => console.log('updated store', store.getState())) //to allow app to subscribe to changes in the store
+const unsubscribe = store.subscribe(() => {}) //to allow app to subscribe to changes in the store
 store.dispatch(buyCake())//dispatch an action
 store.dispatch(buyCake())
 store.dispatch(buyCake())
